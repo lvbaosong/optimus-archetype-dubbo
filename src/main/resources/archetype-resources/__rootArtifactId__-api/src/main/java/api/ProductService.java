@@ -6,10 +6,10 @@ public interface ProductService {
 
     Object getProductList(Integer page, Integer size, Integer price);
 
-    Object getProductById(Integer id);
+    Object getProductById(String id);
 
     Object createProduct(Product product);
 
-    Object deleteProductById(Integer id);
+    Object deleteProductById(String id);
 
 }
