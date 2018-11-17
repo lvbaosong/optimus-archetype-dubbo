@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<archetype-descriptor name="optimus-archetype-hsf">
+    <requiredProperties>
+        <requiredProperty key="appName">
+            <defaultValue>helloworld</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="groupId">
+            <defaultValue>com.deepexi</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="artifactId">
+            <defaultValue>helloworld</defaultValue>
+        </requiredProperty>
+        <requiredProperty key="package">
+            <defaultValue>com.deepexi</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <fileSets>
+        <fileSet filtered="true" encoding="UTF-8">
+            <directory/>
+            <includes>
+                <include>Dockerfile</include>
+                <include>start-code.sh</include>
+                <include>.gitignore</include>
+                <include>README.md</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+    <modules>
+    <module id="${rootArtifactId}-api" dir="__rootArtifactId__-api" name="${rootArtifactId}-api">
+        <fileSets>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+                <directory>src/main/java</directory>
+            </fileSet>
+            <fileSet encoding="UTF-8">
+                <directory>src/main/resources</directory>
+            </fileSet>
+            <fileSet filtered="true" packaged="true" encoding="UTF-8">
+                <directory>src/test/java</directory>
+            </fileSet>
+            <fileSet encoding="UTF-8">
+                <directory>src/test/resources</directory>
+            </fileSet>
+        </fileSets>
+    </module>
+        <module id="${rootArtifactId}-provider" dir="__rootArtifactId__-provider" name="${rootArtifactId}-provider">
+            <fileSets>
+                <fileSet filtered="true" packaged="true" encoding="UTF-8">
+                    <directory>src/main/java</directory>
+                </fileSet>
+                <fileSet filtered="true" encoding="UTF-8">
+                    <directory>src/main/resources</directory>
+                </fileSet>
+                <fileSet filtered="true" packaged="true" encoding="UTF-8">
+                    <directory>src/test/java</directory>
+                </fileSet>
+                <fileSet encoding="UTF-8">
+                    <directory>src/test/resources</directory>
+                </fileSet>
+            </fileSets>
+        </module>
+    </modules>
+
+</archetype-descriptor>
