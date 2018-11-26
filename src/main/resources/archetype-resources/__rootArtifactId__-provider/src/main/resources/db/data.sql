@@ -1,4 +1,8 @@
-INSERT INTO product(id, name, price) VALUES ('1', '苹果', 20, tenant_id, created_by, updated_by, created_at, updated_at, dr),
+DROP TABLE IF EXISTS product;
+
+CREATE TABLE IF NOT EXISTS product(id varchar(32) unsigned not null primary key,name varchar(32),price int,tenant_id varchar(32),created_by varchar(32),updated_by varchar(32),created_at date,updated_at date, dr int(1));
+
+INSERT INTO product(id, name, price, tenant_id, created_by, updated_by, created_at, updated_at, dr) VALUES ('1', '苹果', 20, null, null, null, null, null, 0),
 ('2', '梨', 10, null, null ,null, null, null, 0),
 ('3', '桃子', 123, null, null ,null, null, null, 0),
 ('4', '香蕉', 11, null, null ,null, null, null, 0),

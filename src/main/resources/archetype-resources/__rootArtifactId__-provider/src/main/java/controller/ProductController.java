@@ -53,4 +53,10 @@ public class ProductController {
     public Payload deleteProductById(@PathParam("id") String id) {
         return new Payload(productService.deleteProductById(id));
     }
+
+    @GET
+    @Path("/testError")
+    public Payload testError() {
+        return new Payload(productService.testError());
+    }
 }

@@ -70,7 +70,7 @@ public class ProductServiceImpl implements ProductService {
         throw new ApplicationException(Response.Status.BAD_REQUEST, "100001", "熔断降级处理!");
     }
 
-    public void testError() {
+    public Object testError() {
         throw new ApplicationException(Response.Status.BAD_REQUEST, "100002", "这是返回的自定义错误信息!");
     }
 }

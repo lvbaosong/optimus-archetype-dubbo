@@ -12,4 +12,5 @@ public interface ProductService {
 
     Object deleteProductById(String id);
 
+    Object testError();
 }
