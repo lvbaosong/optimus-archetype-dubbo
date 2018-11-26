@@ -1,12 +1,8 @@
 package ${package}.domain.eo;
 
-import java.io.Serializable;
+import com.deepexi.util.mapper.SuperEntity;
 
-public class Product implements Serializable {
-
-    private static final long serialVersionUID = -360211730780155756L;
-
-    private String id;
+public class Product extends SuperEntity {
 
     private String name;
 
@@ -17,14 +13,6 @@ public class Product implements Serializable {
     public Product(String name, Integer price) {
         this.name = name;
         this.price = price;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

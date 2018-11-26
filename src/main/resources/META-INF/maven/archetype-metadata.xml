@@ -23,7 +23,6 @@
                 <include>start-code.sh</include>
                 <include>.gitignore</include>
                 <include>README.md</include>
-                <include>test.mv.db</include>
             </includes>
         </fileSet>
     </fileSets>

@@ -1,15 +1,20 @@
 package ${package}.controller;
 
-import ${package}.api.ProductService;
+import ${package}.service.ProductService;
 import ${package}.domain.eo.Product;
 import com.deepexi.util.config.Payload;
+import com.deepexi.util.constant.ContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Service;
 
-@RestController
-@RequestMapping("/products")
+import javax.ws.rs.*;
+
+@Service
+@Path("/api/v1/products")
+@Consumes({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
+@Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 public class ProductController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -17,30 +22,35 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @GetMapping
-    public Payload getProductList(@RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
-                                  @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
-                                  @RequestParam(name = "age", required = false, defaultValue = "0") Integer price) {
+    @GET
+    @Path("/")
+    public Payload getProductList(@QueryParam("page") @DefaultValue("1")  Integer page,
+                                  @QueryParam("size") @DefaultValue("10")  Integer size,
+                                  @QueryParam("age") @DefaultValue("0")  Integer price) {
         return new Payload(productService.getProductList(page, size, price));
     }
 
-    @GetMapping("/{id:[a-zA-Z0-9]+}")
-    public Payload getProductById(@PathVariable("id") String id) {
+    @GET
+    @Path("/{id:[a-zA-Z0-9]+}")
+    public Payload getProductById(@PathParam("id") String id) {
         return new Payload(productService.getProductById(id));
     }
 
-    @PostMapping
-    public Payload createProduct(@RequestBody Product product) {
+    @POST
+    @Path("/")
+    public Payload createProduct(Product product) {
         return new Payload(productService.createProduct(product));
     }
 
-    @PutMapping("/{id:[a-zA-Z0-9]+}")
-    public Payload updateProductById(@PathVariable("id") String id, Product product) {
+    @PUT
+    @Path("/{id:[a-zA-Z0-9]+}")
+    public Payload updateProductById(@PathParam("id") String id, Product product) {
         return new Payload(null);
     }
 
-    @DeleteMapping("/{id:[a-zA-Z0-9]+}")
-    public Payload deleteProductById(@PathVariable("id") String id) {
+    @DELETE
+    @Path("/{id:[a-zA-Z0-9]+}")
+    public Payload deleteProductById(@PathParam("id") String id) {
         return new Payload(productService.deleteProductById(id));
     }
 }

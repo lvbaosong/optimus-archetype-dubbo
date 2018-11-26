@@ -1,6 +1,7 @@
 package ${package}.aop;
 
 import com.alibaba.fastjson.JSON;
+import com.deepexi.extension.AppRuntimeEnv;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -9,7 +10,13 @@ import org.joda.time.DateTime;
 import org.joda.time.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 日志统一打印切面
@@ -20,7 +27,12 @@ public class LogAspect {
 
     private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @Pointcut("execution (* ${package}.api..*.*(..)) || execution (* ${package}.controller..*.*(..))")
+    private final static String TENANT_KEY = "tenantId";
+
+    @Autowired
+    private AppRuntimeEnv appRuntimeEnv;
+
+    @Pointcut("execution (* ${package}.service..*.*(..)) || execution (* ${package}.controller..*.*(..))")
     public void apiLogAop() {
     }
 
@@ -31,6 +43,10 @@ public class LogAspect {
         DateTime endTime = null;
         Interval interval = null;
         Object response = null;
+
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        appRuntimeEnv.ensureTenantId(getParam(request, TENANT_KEY));
+
         try {
             //执行该方法
             response = point.proceed();
@@ -54,6 +70,18 @@ public class LogAspect {
             logger.error("", e);
         }
         return String.valueOf(object);
+    }
+
+    /**
+     * 获取业务参数
+     *
+     * @param request
+     * @param param
+     * @throws Exception
+     */
+    private String getParam(HttpServletRequest request, String param) throws Exception {
+        String[] reqParam = request.getParameterValues(param);
+        return (reqParam == null || reqParam.length < 1 ? null : reqParam[0]);
     }
 
 }

@@ -2,9 +2,11 @@ package ${package}.service.impl;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.dubbo.config.annotation.Service;
-import ${package}.api.ProductService;
+import com.alibaba.dubbo.rpc.RpcContext;
+import ${package}.service.ProductService;
 import ${package}.domain.eo.Product;
-import ${package}.extension.MyException;
+import ${package}.extension.ApplicationException;
+import ${package}.extension.AppRuntimeEnv;
 import ${package}.mapper.ProductMapper;
 import com.deepexi.util.pageHelper.PageBean;
 import com.github.pagehelper.PageHelper;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import javax.ws.rs.core.Response;
 
 @Component
 @Service(version = "${demo.service.version}")
@@ -23,6 +26,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+
+    @Autowired
+    private AppRuntimeEnv appRuntimeEnv;
 
     public Object getProductList(Integer page, Integer size, Integer age) {
         PageHelper.startPage(page, size);
@@ -41,6 +47,9 @@ public class ProductServiceImpl implements ProductService {
 
     @SentinelResource(value = "testSentinel", fallback = "doFallback", blockHandler = "exceptionHandler")
     public Object getProductById(String id) {
+        // dubbo生产者被消费者调用时，客户端隐式传入的参数
+        String tenantId = RpcContext.getContext().getAttachment("tenantId");
+        logger.info("获取客户端隐式参数，tenantId：{}", tenantId);
         return productMapper.selectById(id);
     }
 
@@ -58,6 +67,10 @@ public class ProductServiceImpl implements ProductService {
     public void exceptionHandler(long s, Exception ex) {
         // Do some log here.
         logger.info("-------------熔断降级处理逻辑---------\n");
-        throw new MyException("100", "熔断降级处理");
+        throw new ApplicationException(Response.Status.BAD_REQUEST, "100001", "熔断降级处理!");
+    }
+
+    public void testError() {
+        throw new ApplicationException(Response.Status.BAD_REQUEST, "100002", "这是返回的自定义错误信息!");
     }
 }

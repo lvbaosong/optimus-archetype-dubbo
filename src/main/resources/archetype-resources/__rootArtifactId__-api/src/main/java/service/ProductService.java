@@ -1,4 +1,4 @@
-package ${package}.api;
+package ${package}.service;
 
 import ${package}.domain.eo.Product;
 
