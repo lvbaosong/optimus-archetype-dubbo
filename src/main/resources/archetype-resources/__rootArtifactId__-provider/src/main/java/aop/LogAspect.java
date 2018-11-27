@@ -1,7 +1,7 @@
 package ${package}.aop;
 
 import com.alibaba.fastjson.JSON;
-import com.deepexi.extension.AppRuntimeEnv;
+import ${package}.extension.AppRuntimeEnv;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
