@@ -44,8 +44,10 @@ public class LogAspect {
         Interval interval = null;
         Object response = null;
 
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        appRuntimeEnv.ensureTenantId(getParam(request, TENANT_KEY));
+        if (RequestContextHolder.getRequestAttributes() != null) {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            appRuntimeEnv.ensureTenantId(getParam(request, TENANT_KEY));
+        }
 
         try {
             //执行该方法
