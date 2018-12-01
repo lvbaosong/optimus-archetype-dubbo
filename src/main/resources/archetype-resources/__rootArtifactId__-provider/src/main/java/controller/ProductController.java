@@ -4,6 +4,7 @@ import ${package}.service.ProductService;
 import ${package}.domain.eo.Product;
 import com.deepexi.util.config.Payload;
 import com.deepexi.util.constant.ContentType;
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import javax.ws.rs.*;
 @Path("/api/v1/products")
 @Consumes({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
 @Produces({ContentType.APPLICATION_JSON_UTF_8, ContentType.TEXT_XML_UTF_8})
+@Api("商品相关api")
 public class ProductController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -22,8 +24,24 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * 获取商品信息
+     * 这是一个集成接入swagger的接口用例
+     * 查看http://localhost:8088/helloworld/swagger.json 可获取相应接口描述json文件
+     * @param page
+     * @param size
+     * @param price
+     * @return
+     */
     @GET
     @Path("/")
+    @ApiOperation("按价格筛选，分页获取商品信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType="path",name="id",dataType="int",required=false,value="第几页",defaultValue="1"),
+            @ApiImplicitParam(paramType="path",name="size",dataType="int",required=false,value="每页数据条数",defaultValue="10"),
+            @ApiImplicitParam(paramType="path",name="age",dataType="int",required=false,value="价格",defaultValue="0"),
+    })
+    @ApiResponses({@ApiResponse(code=400,message="请求参数没填好")})
     public Payload getProductList(@QueryParam("page") @DefaultValue("1")  Integer page,
                                   @QueryParam("size") @DefaultValue("10")  Integer size,
                                   @QueryParam("age") @DefaultValue("0")  Integer price) {
