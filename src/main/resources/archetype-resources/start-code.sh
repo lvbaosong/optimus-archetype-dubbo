@@ -50,4 +50,5 @@ docker run -d --restart=on-failure:5 --privileged=true \
           --spring.profiles.active=prod \
           --spring.datasource.url=$spring_datasource_url \
           --spring.datasource.username=root \
-          --spring.datasource.password=my-secret-ab
+          --spring.datasource.password=my-secret-ab \
+          --dubbo.registry.address=zookeeper://127.0.0.1:2181
