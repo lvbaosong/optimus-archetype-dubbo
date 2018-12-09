@@ -1,7 +1,5 @@
 package ${package}.domain.eo;
 
-import com.deepexi.util.mapper.SuperEntity;
-
 public class Product extends SuperEntity {
 
     private String name;
