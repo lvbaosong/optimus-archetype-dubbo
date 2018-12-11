@@ -75,6 +75,7 @@ public class ProductController {
     @GET
     @Path("/testError")
     public Payload testError() {
-        return new Payload(productService.testError());
+        productService.testError();
+        return new Payload(true);
     }
 }
