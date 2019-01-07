@@ -17,4 +17,4 @@ docker run --rm \
    -w /usr/src/mymaven $img_mvn mvn clean package -U
 
 ###### step3 build image
-mv $proj_home/${rootArtifactId}-provider/target/${rootArtifactId}-provider-*.jar $proj_home/demo.jar
+mv $proj_home/${rootArtifactId}-provider/target/${rootArtifactId}-provider-*.jar $proj_home/${rootArtifactId}-provider/target/demo.jar
