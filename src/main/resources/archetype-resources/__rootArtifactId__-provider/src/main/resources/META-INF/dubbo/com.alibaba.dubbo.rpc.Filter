@@ -1,0 +1,2 @@
+dubboContextProviderFilter=${package}.filter.DubboContextProviderFilter
+dubboContextConsumerFilter=${package}.filter.DubboContextConsumerFilter

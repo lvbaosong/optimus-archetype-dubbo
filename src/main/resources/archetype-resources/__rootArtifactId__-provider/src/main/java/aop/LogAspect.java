@@ -32,8 +32,32 @@ public class LogAspect {
     @Autowired
     private AppRuntimeEnv appRuntimeEnv;
 
-    @Pointcut("execution (* ${package}.service..*.*(..)) || execution (* ${package}.controller..*.*(..))")
+    @Pointcut("execution (* ${package}.controller..*.*(..))")
+    public void controllerLogAop() {
+    }
+
+    @Pointcut("execution (* ${package}.service..*.*(..))")
     public void apiLogAop() {
+    }
+
+    @Around("controllerLogAop()")
+    public Object aroundController(ProceedingJoinPoint point) throws Throwable {
+
+        // controller传入记录token和tenantId这些通用参数
+        if (RequestContextHolder.getRequestAttributes() != null) {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            appRuntimeEnv.setTenantId(getParam(request, TENANT_KEY));
+            appRuntimeEnv.setToken(getParam(request, TOKEN_KEY));
+        }
+
+        try {
+            //执行该方法
+            response = point.proceed();
+        } catch (Exception e) {
+            logger.error("", e);
+            throw e;
+        }
+        return response;
     }
 
     @Around("apiLogAop()")
@@ -43,11 +67,6 @@ public class LogAspect {
         DateTime endTime = null;
         Interval interval = null;
         Object response = null;
-
-//        if (RequestContextHolder.getRequestAttributes() != null) {
-//            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-//            appRuntimeEnv.ensureTenantId(getParam(request, TENANT_KEY));
-//        }
 
         try {
             //执行该方法

@@ -35,6 +35,14 @@ public class AppRuntimeEnv {
         return this;
     }
 
+    public void setTenantId(String tenantId) {
+        this.tenantId.set(tenantId);
+    }
+
+    public void setToken(String token) {
+        this.token.set(token);
+    }
+
     public String getTenantId() {
         return tenantId.get();
     }
