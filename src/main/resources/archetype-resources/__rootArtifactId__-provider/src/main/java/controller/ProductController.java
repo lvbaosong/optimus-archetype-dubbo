@@ -78,4 +78,11 @@ public class ProductController {
         productService.testError();
         return new Payload(true);
     }
+
+    @GET
+    @Path("/testRpcError")
+    public Payload testRpcError() {
+        productService.testRpcError();
+        return new Payload(true);
+    }
 }

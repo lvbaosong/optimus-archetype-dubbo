@@ -1,6 +1,6 @@
 package ${package}.extension;
 
-import ${package}.domain.constant.ResultEnum;
+import ${package}.enums.ResultEnum;
 import com.deepexi.util.IdGenerator;
 import com.deepexi.util.extension.ApplicationException;
 import org.springframework.stereotype.Component;

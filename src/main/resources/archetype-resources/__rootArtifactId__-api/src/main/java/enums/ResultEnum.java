@@ -1,4 +1,4 @@
-package ${package}.domain.enums;
+package ${package}.enums;
 
 import com.deepexi.util.constant.BaseEnumType;
 
@@ -11,7 +11,8 @@ public enum ResultEnum implements BaseEnumType{
     USER_EXIST("100002", "用户已存在！"),
     NETWORK_LIMIT("100001", "网络限流！"),
     TOKEN_NOT_FOUND("200001", "token不能为空！"),
-    TENANT_NOT_FOUND("200002", "tenantId不能为空！");
+    TENANT_NOT_FOUND("200002", "tenantId不能为空！"),
+    RPC_ERROR("300000", "RPC调用异常!请检查服务是否正常!!!");
 
     private String code;
 
