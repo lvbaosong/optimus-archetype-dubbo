@@ -3,11 +3,12 @@ package ${package}.service.impl;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.alibaba.dubbo.rpc.RpcContext;
+import ${package}.domain.constant.ResultEnum;
 import ${package}.service.ProductService;
 import ${package}.domain.eo.Product;
-import ${package}.extension.ApplicationException;
 import ${package}.extension.AppRuntimeEnv;
 import ${package}.mapper.ProductMapper;
+import com.deepexi.util.extension.ApplicationException;
 import com.deepexi.util.pageHelper.PageBean;
 import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import javax.ws.rs.core.Response;
 
 @Component
 @Service(version = "${demo.service.version}")
@@ -67,10 +67,10 @@ public class ProductServiceImpl implements ProductService {
     public void exceptionHandler(long s, Exception ex) {
         // Do some log here.
         logger.info("-------------熔断降级处理逻辑---------\n");
-        throw new ApplicationException(Response.Status.BAD_REQUEST, "100001", "熔断降级处理!");
+        throw new ApplicationException(ResultEnum.NETWORK_LIMIT);
     }
 
     public void testError() {
-        throw new ApplicationException(Response.Status.BAD_REQUEST, "100002", "这是返回的自定义错误信息!");
+        throw new ApplicationException(ResultEnum.USER_EXIST);
     }
 }

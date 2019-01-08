@@ -38,13 +38,13 @@ public class DubboContextConsumerFilter implements Filter {
     @Override
     public Result invoke(Invoker<?> invoker, Invocation invocation) throws RpcException {
         try {
-            System.out.println("filter来了。。。。");
 
             AppRuntimeEnv appRuntimeEnv = (AppRuntimeEnv) ServiceBean.getSpringContext().getBean("appRuntimeEnv");
             Map<String, String> context = new HashMap<>();
 
             context.put(TOKEN_KEY, appRuntimeEnv.getToken());
             context.put(TENANT_ID_KEY, appRuntimeEnv.getTenantId());
+            logger.info("rpc filter传参：{}", context);
             RpcContext.getContext().setAttachments(context);
         } catch (Exception e) {
             logger.error("消费端filter统一传参异常:", e);

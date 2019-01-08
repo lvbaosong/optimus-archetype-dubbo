@@ -28,6 +28,7 @@ public class LogAspect {
     private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     private final static String TENANT_KEY = "tenantId";
+    private final static String TOKEN_KEY = "userToken";
 
     @Autowired
     private AppRuntimeEnv appRuntimeEnv;
@@ -50,11 +51,11 @@ public class LogAspect {
             appRuntimeEnv.setToken(getParam(request, TOKEN_KEY));
         }
 
+        Object response = null;
         try {
             //执行该方法
             response = point.proceed();
         } catch (Exception e) {
-            logger.error("", e);
             throw e;
         }
         return response;
@@ -72,7 +73,6 @@ public class LogAspect {
             //执行该方法
             response = point.proceed();
         } catch (Exception e) {
-            logger.error("", e);
             endTime = new DateTime();
             interval = new Interval(startTime, endTime);
             logger.info("日志统一打印 ===== {}.{}() end =====,响应时间:{}毫秒,响应内容:\n{}", point.getSignature().getDeclaringTypeName(), point.getSignature().getName(), interval.toDurationMillis());

@@ -1,10 +1,9 @@
 package ${package}.extension;
 
-import ${package}.extension.ApplicationException;
+import ${package}.domain.constant.ResultEnum;
 import com.deepexi.util.IdGenerator;
+import com.deepexi.util.extension.ApplicationException;
 import org.springframework.stereotype.Component;
-
-import javax.ws.rs.core.Response;
 
 /**
  * author      : dormi330
@@ -24,13 +23,13 @@ public class AppRuntimeEnv {
 
 
     public AppRuntimeEnv ensureToken(String token) throws Exception {
-        if (null == token) throw new ApplicationException(Response.Status.BAD_REQUEST, "token must not be null");
+        if (null == token) throw new ApplicationException(ResultEnum.TOKEN_NOT_FOUND);
         this.token.set(token);
         return this;
     }
 
     public AppRuntimeEnv ensureTenantId(String tenantId) throws Exception {
-        if (null == tenantId) throw new ApplicationException(Response.Status.BAD_REQUEST, "tenantId must not be null");
+        if (null == tenantId) throw new ApplicationException(ResultEnum.TENANT_NOT_FOUND);
         this.tenantId.set(tenantId);
         return this;
     }
