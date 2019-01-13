@@ -1,2 +1,3 @@
+exceptionFilter=${package}.filter.ExceptionFilter
 dubboContextProviderFilter=${package}.filter.DubboContextProviderFilter
 dubboContextConsumerFilter=${package}.filter.DubboContextConsumerFilter
