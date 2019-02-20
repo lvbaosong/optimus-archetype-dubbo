@@ -1,15 +1,20 @@
 package ${package}.controller;
 
-import ${package}.service.ProductService;
+import ${package}.domain.dto.ProductDto;
 import ${package}.domain.eo.Product;
+import ${package}.service.ProductService;
 import com.deepexi.util.config.Payload;
 import com.deepexi.util.constant.ContentType;
 import io.swagger.annotations.*;
+import org.jboss.resteasy.annotations.Form;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 
 @Service
@@ -83,6 +88,30 @@ public class ProductController {
     @Path("/testRpcError")
     public Payload testRpcError() {
         productService.testRpcError();
+        return new Payload(true);
+    }
+
+    /**
+     * 绑定参数校验demo，测试post方式
+     * 绑定实体前添加@Valid注解，单个参数直接注解校验
+     */
+    @POST
+    @Path("/testPostValidate")
+    public Payload testPostValidate(@NotNull(message = "id不能为null") @Min(value = 10, message = "id必须大于等于10")@QueryParam("id") Integer id,
+                                    @Valid ProductDto productDto) {
+        return new Payload(true);
+    }
+
+    /**
+     * 绑定参数校验demo2，测试get url传参方式
+     * 参数少时可以直接列出来单独写
+     * 参数多时可以选择封装成dto对象，使用 @Form 注解
+     * 这个方法跟上面getById会冲突，加个test区分测试
+     */
+    @GET
+    @Path("/test/getValidate")
+    public Payload testGetValidate(@NotNull(message = "id不能为null") @Min(value = 5, message = "id必须大于等于5")@QueryParam("id") Integer id,
+                                   @Valid @Form ProductDto productDto) {
         return new Payload(true);
     }
 }
