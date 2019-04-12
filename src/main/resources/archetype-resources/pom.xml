@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.deepexi</groupId>
         <artifactId>dubbo-center-modules</artifactId>
-        <version>1.0.0-SNAPSHOT</version>
+        <version>1.0.1-SNAPSHOT</version>
     </parent>
 
     <groupId>${groupId}</groupId>
