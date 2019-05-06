@@ -1,3 +1,9 @@
+/**
+ * SuperEntity  2019/4/2
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.domain.eo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
@@ -9,6 +15,13 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @description: 数据库实体基类
+ * @program: SuperEntity
+ * @author: donh
+ * @mail: hudong@deepexi.com
+ * @date: 2019/4/2 下午2:34
+ **/
 public class SuperEntity implements Serializable {
 
     private static final long serialVersionUID = -3023221879862316801L;
@@ -31,7 +44,7 @@ public class SuperEntity implements Serializable {
     private Date updatedAt;
 
     @TableLogic
-    private Integer dr = 0;
+    private Integer dr;
 
     public String getId() {
         return id;

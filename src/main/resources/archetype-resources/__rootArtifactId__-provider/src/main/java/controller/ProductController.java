@@ -1,13 +1,17 @@
+/**
+ * ProductController  2019/3/27
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.alibaba.csp.sentinel.slots.block.BlockException;
-import ${package}.domain.dto.ProductDto;
-import ${package}.domain.eo.Product;
-import ${package}.enums.ResultEnum;
+import ${package}.domain.vm.ProductCreateVM;
+import ${package}.domain.vm.ProductPageVM;
+import ${package}.domain.vm.ProductUpdateVM;
 import ${package}.service.ProductService;
 import com.deepexi.util.config.Payload;
-import com.deepexi.util.extension.ApplicationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+/**
+ * @description: 商品服务rest接口，中台中心层不需要rest接口可忽略
+ * @program: ProductController
+ * @author: donh
+ * @mail: hudong@deepexi.com
+ * @date: 2019/3/27 下午4:06
+ **/
 @Validated
 @RestController
 @RequestMapping("/api/v1/products")
@@ -27,6 +38,15 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    /**
+     * @description: 分页查询商品信息
+     * @param page : 第几页
+     * @param size : 每页查询数据条数
+     * @param price : 价格作为筛选条件
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:28
+     */
     @GetMapping
     public Payload getProductList(@RequestParam(name = "page", required = false, defaultValue = "1") Integer page,
                                   @RequestParam(name = "size", required = false, defaultValue = "10") Integer size,
@@ -34,29 +54,60 @@ public class ProductController {
         return new Payload(productService.getProductList(page, size, price));
     }
 
+    /**
+     * @description: 根据商品id查询商品信息
+     * @param id :
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:30
+     */
     @GetMapping("/{id:[a-zA-Z0-9]+}")
     public Payload getProductById(@PathVariable("id") String id) {
         return new Payload(productService.getProductById(id));
     }
 
+    /**
+     * @description: 创建商品
+     * @param productCreateVM :
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:30
+     */
     @PostMapping
-    public Payload createProduct(@RequestBody Product product) {
-        return new Payload(productService.createProduct(product));
+    public Payload createProduct(@RequestBody ProductCreateVM productCreateVM) {
+        return new Payload(productService.createProduct(productCreateVM));
     }
 
+    /**
+     * @description: 更新商品信息
+     * @param id :
+     * @param productUpdateVM :
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:30
+     */
     @PutMapping("/{id:[a-zA-Z0-9]+}")
-    public Payload updateProductById(@PathVariable("id") String id, Product product) {
+    public Payload updateProductById(@PathVariable("id") String id, ProductUpdateVM productUpdateVM) {
         return new Payload(null);
     }
 
+    /**
+     * @description: 根据id删除商品
+     * @param id :
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/4/4 下午3:11
+     */
     @DeleteMapping("/{id:[a-zA-Z0-9]+}")
     public Payload deleteProductById(@PathVariable("id") String id) {
         return new Payload(productService.deleteProductById(id));
     }
 
     /**
-     * 测试统一异常处理
-     * @return
+     * @description: 测试统一异常接口
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:31
      */
     @GetMapping("/testError")
     public Payload testError() {
@@ -65,8 +116,10 @@ public class ProductController {
     }
 
     /**
-     * 测试sentinel限流
-     * @return
+     * @description: 测试sentinel限流接口
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:32
      */
     @GetMapping("/testSentinel")
     @SentinelResource(value = "testSentinel", blockHandler = "exceptionHandler")
@@ -76,37 +129,41 @@ public class ProductController {
     }
 
     /**
-     * 熔断降级处理逻辑
-     * @param s
-     * @param ex
-     * @return
-     */
-    public Payload exceptionHandler(long s, BlockException ex) {
-        // Do some log here.
-        logger.info("-------------熔断降级处理逻辑---------\n");
-        throw new ApplicationException(ResultEnum.NETWORK_LIMIT);
-    }
-
-    /**
-     * 绑定参数校验demo，测试post方式
+     * @description: 测试接口，绑定参数校验demo，测试post方式
+     * @param id :
+     * @param productCreateVM :
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:32
      */
     @PostMapping("/testPostValidate")
-    public Payload testPostValidate(@Min(value = 5, message = "id必须大于等于5")@RequestParam Integer id,
-                                    @Valid @RequestBody ProductDto productDto) {
+    public Payload testPostValidate(@Min(value = 5, message = "id必须大于等于5") @RequestParam Integer id,
+                                    @Valid @RequestBody ProductCreateVM productCreateVM) {
         return new Payload(true);
     }
 
     /**
-     * 绑定参数校验demo2，测试get url传参方式
-     * 参数少时可以直接列出来单独写
-     * 参数多时可以选择封装成dto对象
+     * @description:  测试接口，绑定参数校验demo2，测试get url传参方式
+     *                参数少时可以直接列出来单独写
+     *                参数多时可以选择封装成dto对象
+     * @param id :
+     * @param productPageVM :
+     * @return:
+     * @author: donh
+     * @date: 2019/3/28 下午2:33
      */
     @GetMapping("/testGetValidate")
-    public Payload testGetValidate(@Min(value = 5, message = "id必须大于等于5")@RequestParam Integer id,
-                                   @Valid ProductDto productDto) {
+    public Payload testGetValidate(@Min(value = 5, message = "id必须大于等于5") @RequestParam Integer id,
+                                   @Valid ProductPageVM productPageVM) {
         return new Payload(true);
     }
 
+    /**
+     * @description: 测试远程rpc调用时异常处理接口
+     * @return: com.deepexi.util.config.Payload
+     * @author: donh
+     * @date: 2019/3/28 下午2:33
+     */
     @GetMapping("/testRpcError")
     public Payload testRpcError() {
         productService.testRpcError();

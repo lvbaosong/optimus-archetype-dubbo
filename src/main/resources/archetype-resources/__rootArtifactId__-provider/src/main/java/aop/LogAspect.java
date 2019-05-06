@@ -1,3 +1,9 @@
+/**
+ * LogAspect  2019/3/27
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.aop;
 
 import com.alibaba.fastjson.JSON;
@@ -19,25 +25,28 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 日志统一打印切面
- */
+ * @description: 日志统一打印切面
+ * @program: LogAspect
+ * @author: donh
+ * @mail: hudong@deepexi.com
+ * @date: 2019/3/27 下午3:37
+ **/
 @Component
 @Aspect
 public class LogAspect {
 
-    private static Logger logger = LoggerFactory.getLogger(LogAspect.class);
-
     private final static String TENANT_KEY = "tenantId";
     private final static String TOKEN_KEY = "userToken";
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private AppRuntimeEnv appRuntimeEnv;
 
-    @Pointcut("execution (* ${package}.controller..*.*(..))")
+    @Pointcut("execution (* com.deepexi.demo.controller..*.*(..))")
     public void controllerLogAop() {
     }
 
-    @Pointcut("execution (* ${package}.service..*.*(..))")
+    @Pointcut("execution (* com.deepexi.demo.service..*.*(..))")
     public void apiLogAop() {
     }
 

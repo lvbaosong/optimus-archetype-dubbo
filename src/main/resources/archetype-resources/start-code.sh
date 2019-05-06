@@ -33,9 +33,12 @@ version=`date "+%Y%m%d%H"`
 spring_datasource_url=jdbc:mysql://localhost:3306/${rootArtifactId}?useUnicode=true\&characterEncoding=utf-8\&useSSL=false
 
 # 启动镜像
-docker run -d --restart=on-failure:5 --privileged=true \
+docker run -d --restart=always \
     --net=host \
+    --dns 114.114.114.114 \
+    --env 'TZ=Asia/Shanghai' \
     -w /home \
+    -v /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime:ro \
     -v $PWD/logs:/home/logs \
     --name ${rootArtifactId} deepexi/${rootArtifactId} \
     java \

@@ -1,7 +1,15 @@
+/**
+ * MyControllerAdvice  2019/3/27
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.extension;
 
 import com.deepexi.util.config.Payload;
 import com.deepexi.util.extension.ApplicationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -20,6 +28,8 @@ import java.util.Iterator;
 @RestControllerAdvice
 public class MyControllerAdvice {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     /**
      * 全局异常捕捉处理
      *
@@ -28,6 +38,7 @@ public class MyControllerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public Payload errorHandler(Exception ex) {
+        logger.error("系统异常", ex);
         return new Payload(null, "500", ex.getMessage());
     }
 

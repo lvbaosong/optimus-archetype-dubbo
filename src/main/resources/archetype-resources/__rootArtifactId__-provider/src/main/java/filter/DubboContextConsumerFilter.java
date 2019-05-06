@@ -1,3 +1,9 @@
+/**
+ * DubboContextConsumerFilter  2019/3/27
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.filter;
 
 import com.alibaba.dubbo.common.Constants;

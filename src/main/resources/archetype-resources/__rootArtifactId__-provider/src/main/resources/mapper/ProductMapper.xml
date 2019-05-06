@@ -5,8 +5,8 @@
 <mapper namespace="${package}.mapper.ProductMapper">
     <!--id与dao接口的方法名一直，指定结果类型，和参数类型 -->
 
-    <select id="selectPageVo" resultType="${package}.domain.eo.Product">
-        SELECT * FROM product WHERE price > #{price}
+    <select id="selectPageVo" resultType="${package}.dto.ProductDTO">
+        SELECT id, name, price FROM product WHERE price > #{price}
     </select>
 
 </mapper>

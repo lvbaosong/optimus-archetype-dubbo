@@ -1,3 +1,9 @@
+/**
+ * DataSourceConfig  2019/3/27
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.config;
 
 import com.alibaba.csp.sentinel.annotation.aspectj.SentinelResourceAspect;
@@ -12,15 +18,12 @@ import org.springframework.context.annotation.Configuration;
 import javax.sql.DataSource;
 
 /**
- * 描述。
- * <p>
- * <br>==========================
- * <br> 公司：滴普科技
- * <br> 开发：hudong@deepexi.com
- * <br> 版本：1.0
- * <br> 创建时间：2018/5/2 10:06
- * <br>==========================
- */
+ * @description: 数据源配置
+ * @program: DataSourceConfig
+ * @author: donh
+ * @mail: hudong@deepexi.com
+ * @date: 2019/3/27 下午3:38
+ **/
 @Configuration
 @MapperScan("${package}.mapper")
 public class DataSourceConfig {

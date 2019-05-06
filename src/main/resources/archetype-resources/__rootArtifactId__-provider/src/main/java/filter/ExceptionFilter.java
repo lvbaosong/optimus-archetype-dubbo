@@ -1,3 +1,9 @@
+/**
+ * ExceptionFilter  2019/3/28
+ *
+ * Copyright (c) 2018, DEEPEXI Inc. All rights reserved.
+ * DEEPEXI PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ */
 package ${package}.filter;
 
 import com.alibaba.dubbo.common.Constants;
@@ -13,8 +19,12 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Method;
 
 /**
- * Created by donh on 2019/1/10.
- */
+ * @description: dubbo异常处理拦截，对自定义异常直接抛出
+ * @program: ExceptionFilter
+ * @author: donh
+ * @mail: hudong@deepexi.com
+ * @date: 2019/3/28 下午5:36
+ **/
 @Activate(group = Constants.PROVIDER)
 public class ExceptionFilter implements Filter {
 
